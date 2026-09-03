@@ -1,5 +1,4 @@
-# .github/workflows/ci.yml
-# CI Pipeline for RaceDay Part 1 - Validates repository structure
+
 
 name: CI - Validate Repository Structure
 
