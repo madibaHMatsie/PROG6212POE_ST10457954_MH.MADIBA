@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/RaceDayAPI/.vs/RaceDayAPI
+/RaceDayAPI/bin/Debug/net8.0
+/RaceDayAPI/obj
+/RaceDayAPI/RaceDayAPI.csproj.user
+/RaceDayMVC/RaceDayMVC.csproj.user
+/RaceDayMVC/obj
+/RaceDayMVC/wwwroot/lib

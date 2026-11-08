@@ -1,0 +1,76 @@
+﻿@model IEnumerable<RaceDayMVC.ViewModels.EventViewModel>
+
+@{
+    ViewData["Title"] = "Upcoming Events";
+}
+
+<div class="container mt-4">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Upcoming RaceDay Events</h1>
+        <p class="lead">Find your next run, walk, or cycle!</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            No events found. Check back later!
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var ev in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100">
+
+                        <!-- AZURE IMAGE DISPLAY -->
+                        @if (!string.IsNullOrEmpty(ev.BannerImageUrl))
+                        {
+                            <img src="@ev.BannerImageUrl" class="card-img-top" style="height: 150px; object-fit: cover;" alt="@ev.Name" />
+                        }
+                        else
+                        {
+                            <div class="bg-secondary text-white text-center p-4" style="height: 150px; display:flex; align-items:center; justify-content:center;">
+                                <h3>@ev.EventType.ToUpper()</h3>
+                            </div>
+                        }
+
+                        <div class="card-body">
+                            <h4 class="card-title">@ev.Name</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">@ev.Date.ToString("dd MMM yyyy")</h6>
+                            <p class="card-text">@ev.Description</p>
+
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item">📍 @ev.Location</li>
+                                <li class="list-group-item">🏃 @ev.Distance km</li>
+                                <li class="list-group-item">
+                                    Status:
+                                    @if (ev.Status == "Open")
+                                    {
+                                        <span class="badge bg-success">Open</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">@ev.Status</span>
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a asp-action="Details" asp-route-id="@ev.EventId" class="btn btn-primary w-100">View Details & Enrol</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

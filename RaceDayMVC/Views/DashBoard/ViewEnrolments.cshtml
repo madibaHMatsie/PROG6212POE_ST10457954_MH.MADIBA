@@ -1,0 +1,86 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Event Enrolments";
+}
+
+<div class="container mt-4">
+
+    <!-- Success/Error Alerts -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Participant Enrolments</h2>
+        <a asp-action="Index" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    <!-- Azure Banner Upload Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Upload Event Banner</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="UploadBanner" method="post" enctype="multipart/form-data" class="d-flex">
+                <input type="hidden" name="eventId" value="@ViewBag.EventId" />
+                <input type="file" name="file" class="form-control me-2" required accept="image/*" />
+                <button type="submit" class="btn btn-primary">Upload Image</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Participant Name</th>
+                        <th>Category</th>
+                        <th>Bib Number</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="5" class="text-center py-4">No participants have enrolled yet.</td></tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold">@item.participantName</td>
+                                <td>@item.categoryName</td>
+                                <td>@item.bibNumber</td>
+                                <td><span class="badge bg-success">@item.status</span></td>
+                                <td class="text-end">
+                                    <!-- Link to the CaptureResult form -->
+                                    <a asp-action="CaptureResult"
+                                       asp-route-enrolmentId="@item.enrolmentId"
+                                       asp-route-participantName="@item.participantName"
+                                       asp-route-eventId="@ViewBag.EventId"
+                                       class="btn btn-sm btn-success">
+                                        Capture Result
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

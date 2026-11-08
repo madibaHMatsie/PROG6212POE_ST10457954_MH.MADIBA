@@ -1,0 +1,46 @@
+﻿@model RaceDayMVC.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="text-center mb-4">Create an Account</h3>
+                <form asp-action="Register" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Role" class="form-label">Register As:</label>
+                        <select asp-for="Role" class="form-select">
+                            <option value="Participant">Participant</option>
+                            <option value="Organiser">Organiser</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Register</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a asp-action="Login">Already have an account? Log in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@model RaceDayMVC.ViewModels.EventViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="display-4">@Model.Name</h1>
+            <h4 class="text-muted">@Model.Date.ToString("dd MMMM yyyy")</h4>
+            <hr />
+            <p class="lead">@Model.Description</p>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Event Information</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> <strong>Location:</strong> @Model.Location</li>
+                        <li class="list-group-item"> <strong>Distance:</strong> @Model.Distance km</li>
+                        <li class="list-group-item"> <strong>Type:</strong> @Model.EventType.ToUpper()</li>
+                        <li class="list-group-item">Status: <span class="badge bg-success">@Model.Status</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Enrol Now</h5>
+                </div>
+                <div class="card-body">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                    }
+
+                    @if (Context.Session.GetString("UserRole") == "Participant")
+                    {
+                        <form asp-action="Enrol" method="post">
+                            <input type="hidden" name="eventId" value="@Model.EventId" />
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Select Category</label>
+                                <select name="categoryId" class="form-select" required>
+                                    <option value="">-- Choose a Category --</option>
+                                    @foreach (var cat in Model.Categories)
+                                    {
+                                        <option value="@cat.CategoryId">@cat.Name - R @cat.EntryFee</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-success w-100 btn-lg">Confirm Enrolment</button>
+                        </form>
+                    }
+                    else if (Context.Session.GetString("UserRole") == "Organiser")
+                    {
+                        <div class="alert alert-info">Organisers cannot enrol in events.</div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            Please <a asp-controller="Account" asp-action="Login">Login</a> as a Participant to enrol.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
