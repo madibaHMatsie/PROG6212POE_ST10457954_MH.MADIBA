@@ -19,7 +19,13 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore RaceDayAPI/RaceDayAPI.csproj
       
     - name: Build
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build RaceDayAPI/RaceDayAPI.csproj --no-restore --configuration Release
+      
+    - name: Restore MVC dependencies
+      run: dotnet restore RaceDayMVC/RaceDayMVC.csproj
+      
+    - name: Build MVC
+      run: dotnet build RaceDayMVC/RaceDayMVC.csproj --no-restore --configuration Release
